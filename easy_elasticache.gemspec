@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = EasyElasticache::VERSION
   gem.authors       = ["Chad McGimpsey"]
   gem.email         = ["chad.mcgimpsey@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
+  gem.description   = %q{Automatically start and configure an AWS ElastiCache cluster from an Elastic Beanstalk environment}
   gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/dignoe/auto_elasticache"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
