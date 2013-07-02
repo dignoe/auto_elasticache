@@ -4,24 +4,23 @@ require 'fileutils'
 
 ec_config_content = <<-FILE
 Resources:
-  CardGnomeStagingElastiCache:
+  AppNameEnvironmentElastiCache:
     Type: AWS::ElastiCache::CacheCluster
     Properties:
-      CacheNodeType : cache.t1.micro
-      NumCacheNodes : 1
+      CacheNodeType: cache.m1.small
+      NumCacheNodes: 1
       Engine : memcached
       CacheSecurityGroupNames:
-        - Ref: CardGnomeStagingCacheSecurityGroup
-      NotificationTopicArn : "arn:aws:sns:us-east-1:983640146307:cardgnome-staging"
-  CardGnomeStagingCacheSecurityGroup:
+        - Ref: AppNameEnvironmentCacheSecurityGroup
+  AppNameEnvironmentCacheSecurityGroup:
     Type: AWS::ElastiCache::SecurityGroup
     Properties:
       Description: "Lock cache down to webserver access only"
-  CardGnomeStagingCacheSecurityGroupIngress:
+  AppNameEnvironmentCacheSecurityGroupIngress:
     Type: AWS::ElastiCache::SecurityGroupIngress
     Properties:
       CacheSecurityGroupName: 
-        Ref: CardGnomeStagingCacheSecurityGroup
+        Ref: AppNameEnvironmentCacheSecurityGroup
       EC2SecurityGroupName:
         Ref: AWSEBSecurityGroup
 FILE
@@ -33,30 +32,29 @@ elsif File.exists?(file.downcase)
   warn "[skip] `#{file.downcase}' exists, which could conflict with `#{file}'"
 elsif !File.exists?(File.dirname(file))
   warn "[skip] directory `#{File.dirname(file)}' does not exist"
+else
+  puts "[add] writing `#{file}'"
+  File.open(file, "w") { |f| f.write(ec_config_content) }
 end
 
-puts "[add] writing `#{file}'"
-File.open(file, "w") { |f| f.write(ec_config_content) }
 
-
-ec_options_content = <<-FILE
-option_settings:
-  "aws:elasticbeanstalk:customoption":
-     CacheNodeType : cache.m1.small
-     NumCacheNodes : 1
-     CacheName : MyAppEnvironmentCacheCluster
-     CacheSecurityGroupName : MyAppEnvironmentCacheSecurityGroup
-     CacheSecurityGroupIngressName : MyAppEnvironmentCacheSecurityGroupIngress
+aws_credentials_content = <<-FILE
+staging:
+  access_key_id: ''
+  secret_access_key: ''
+production:
+  access_key_id: ''
+  secret_access_key: ''
 FILE
 
-file = '.ebextensions/elasticache_options.config'
+file = 'config/auto_elasticache.yml'
 if File.exists?(file)
-  warn "`#{file}' already exists, overwriting"
+  warn "[skip] `#{file}' already exists"
 elsif File.exists?(file.downcase)
   warn "[skip] `#{file.downcase}' exists, which could conflict with `#{file}'"
 elsif !File.exists?(File.dirname(file))
   warn "[skip] directory `#{File.dirname(file)}' does not exist"
 else
-	puts "[add] writing `#{file}'"
-	File.open(file, "w") { |f| f.write(ec_options_content) }
+  puts "[add] writing `#{file}'"
+  File.open(file, "w") { |f| f.write(aws_credentials_content) }
 end

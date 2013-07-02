@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'easy_elasticache/version'
+require 'auto_elasticache/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "easy_elasticache"
-  gem.version       = EasyElasticache::VERSION
+  gem.name          = "auto_elasticache"
+  gem.version       = AutoElasticache::VERSION
   gem.authors       = ["Chad McGimpsey"]
   gem.email         = ["chad.mcgimpsey@gmail.com"]
   gem.description   = %q{Automatically start and configure an AWS ElastiCache cluster from an Elastic Beanstalk environment}

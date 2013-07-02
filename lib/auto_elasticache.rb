@@ -1,6 +1,6 @@
-require "easy_elasticache/version"
+require "auto_elasticache/version"
 
-module EasyElasticache
+module AutoElasticache
 	ENVIRONMENT_NAME_FILE = "/var/app/support/env_name"
 	SERVERS_FILE = "/var/app/support/elasticache_servers"
 
@@ -54,6 +54,6 @@ module EasyElasticache
   end
 
   def self.aws_config
-  	@aws_config ||= AWS.config(YAML.load_file("config/easy_elasticache.yml")[Rails.env])
+  	@aws_config ||= AWS.config(YAML.load_file("config/auto_elasticache.yml")[Rails.env])
   end
 end
