@@ -1,0 +1,62 @@
+#!/usr/bin/ruby
+
+require 'fileutils'
+
+ec_config_content = <<-FILE
+Resources:
+  CardGnomeStagingElastiCache:
+    Type: AWS::ElastiCache::CacheCluster
+    Properties:
+      CacheNodeType : cache.t1.micro
+      NumCacheNodes : 1
+      Engine : memcached
+      CacheSecurityGroupNames:
+        - Ref: CardGnomeStagingCacheSecurityGroup
+      NotificationTopicArn : "arn:aws:sns:us-east-1:983640146307:cardgnome-staging"
+  CardGnomeStagingCacheSecurityGroup:
+    Type: AWS::ElastiCache::SecurityGroup
+    Properties:
+      Description: "Lock cache down to webserver access only"
+  CardGnomeStagingCacheSecurityGroupIngress:
+    Type: AWS::ElastiCache::SecurityGroupIngress
+    Properties:
+      CacheSecurityGroupName: 
+        Ref: CardGnomeStagingCacheSecurityGroup
+      EC2SecurityGroupName:
+        Ref: AWSEBSecurityGroup
+FILE
+
+file = '.ebextensions/elasticache.config'
+if File.exists?(file)
+  warn "`#{file}' already exists, overwriting"
+elsif File.exists?(file.downcase)
+  warn "[skip] `#{file.downcase}' exists, which could conflict with `#{file}'"
+elsif !File.exists?(File.dirname(file))
+  warn "[skip] directory `#{File.dirname(file)}' does not exist"
+end
+
+puts "[add] writing `#{file}'"
+File.open(file, "w") { |f| f.write(ec_config_content) }
+
+
+ec_options_content = <<-FILE
+option_settings:
+  "aws:elasticbeanstalk:customoption":
+     CacheNodeType : cache.m1.small
+     NumCacheNodes : 1
+     CacheName : MyAppEnvironmentCacheCluster
+     CacheSecurityGroupName : MyAppEnvironmentCacheSecurityGroup
+     CacheSecurityGroupIngressName : MyAppEnvironmentCacheSecurityGroupIngress
+FILE
+
+file = '.ebextensions/elasticache_options.config'
+if File.exists?(file)
+  warn "`#{file}' already exists, overwriting"
+elsif File.exists?(file.downcase)
+  warn "[skip] `#{file.downcase}' exists, which could conflict with `#{file}'"
+elsif !File.exists?(File.dirname(file))
+  warn "[skip] directory `#{File.dirname(file)}' does not exist"
+else
+	puts "[add] writing `#{file}'"
+	File.open(file, "w") { |f| f.write(ec_options_content) }
+end
