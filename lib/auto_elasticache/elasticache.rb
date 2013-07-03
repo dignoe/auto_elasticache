@@ -1,5 +1,6 @@
 require "version"
 require 'dalli-elasticache'
+require 'aws-sdk'
 
 module AutoElasticache
   class Elasticache
