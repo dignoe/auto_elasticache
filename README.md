@@ -28,23 +28,23 @@ Change the names of the created resources to match your application and environm
 
 ```yaml
 Resources:
-  AppNameEnvironmentElastiCache:                      <<<<<------
+  AppNameEnvironmentElastiCache:                          <<<<<------
     Type: AWS::ElastiCache::CacheCluster
     Properties:
-      CacheNodeType: cache.m1.small                   <<<<<------
+      CacheNodeType: cache.m1.small                       <<<<<------
       NumCacheNodes: 1
       Engine : memcached
       CacheSecurityGroupNames:
-        - Ref: AppNameEnvironmentCacheSecurityGroup   <<<<<------
-  AppNameEnvironmentCacheSecurityGroup:               <<<<<------
+        - Ref: AppNameEnvironmentCacheSecurityGroup       <<<<<------
+  AppNameEnvironmentCacheSecurityGroup:                   <<<<<------
     Type: AWS::ElastiCache::SecurityGroup
     Properties:
       Description: "Lock cache down to webserver access only"
-  AppNameEnvironmentCacheSecurityGroupIngress:        <<<<<------
+  AppNameEnvironmentCacheSecurityGroupIngress:            <<<<<------
     Type: AWS::ElastiCache::SecurityGroupIngress
     Properties:
       CacheSecurityGroupName: 
-        Ref: AppNameEnvironmentCacheSecurityGroup     <<<<<------
+        Ref: AppNameEnvironmentCacheSecurityGroup         <<<<<------
       EC2SecurityGroupName:
         Ref: AWSEBSecurityGroup
 ```
