@@ -14,17 +14,17 @@ module AutoElasticache
 
     def servers
       if File.exists?(SERVERS_FILE)
-        return File.read(SERVERS_FILE)
+        return File.read(SERVERS_FILE).split("\n")
       else
         elasticache = Dalli::ElastiCache.new(configuration_endpoint)
-        File.open(SERVERS_FILE, 'w') {|f| f.write(elasticache.servers) }
+        File.open(SERVERS_FILE, 'w') {|f| f.write(elasticache.servers.join("\n")) }
         return elasticache.servers
       end
     end
 
     def refresh_servers
       elasticache = Dalli::ElastiCache.new(configuration_endpoint)
-      File.open(SERVERS_FILE, 'w') {|f| f.write(elasticache.servers) }
+      File.open(SERVERS_FILE, 'w') {|f| f.write(elasticache.servers.join("\n")) }
       return elasticache.servers
     end
 
