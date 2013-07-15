@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Automatically start and configure an AWS ElastiCache cluster from an Elastic Beanstalk environment}
   gem.summary       = %q{AutoElasticache automatically starts an AWS ElastiCache cluster and configures Rails to use it. This gem requires that you are using AWS Elastic Beanstalk.}
   gem.homepage      = "https://github.com/dignoe/auto_elasticache"
+  gem.license       = 'MIT'
 
   gem.add_dependency('aws-sdk')
   gem.add_dependency('dalli-elasticache')
