@@ -9,7 +9,7 @@ module AutoElasticache
     attr_accessor :config_endpoint
 
     def initialize
-      @config_endpoint = config_endpoint
+      @config_endpoint = configuration_endpoint
     end
 
     def servers
