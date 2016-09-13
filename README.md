@@ -6,7 +6,7 @@ Automatically start and configure an AWS ElastiCache cluster from an Elastic Bea
 
 Add this line to your application's Gemfile:
 
-    gem 'easy_elasticache'
+    gem 'auto_elasticache'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install easy_elasticache
+    $ gem install auto_elasticache
 
 ### Configuration
 
