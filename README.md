@@ -1,4 +1,4 @@
-# EasyElasticache
+# AutoElasticache
 
 Automatically start and configure an AWS ElastiCache cluster from an Elastic Beanstalk environment.
 
